@@ -39,7 +39,7 @@ jobs:
     - name: test app
       run: docker run --rm --detach ndohjapan/react-test npm test
   
-  pusht_to_Docker_Hub:
+  push_to_Docker_Hub:
 
     # The type of runner that the job will run on 
 
@@ -51,43 +51,28 @@ jobs:
 
     steps:
 
-      - name: checkout repo
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+      - name: build client
+        run: docker build -t ndohjapan/multi-client ./client
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: build nginx
+        run: docker build -t ndohjapan/multi-nginx ./nginx
 
-      - name: Build client and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./client
-          file: ./dockerfile
-          push: true
-          tags: ndohjapan/multi-client:latest
+      - name: build server
+        run: docker build -t ndohjapan/multi-server ./server
 
-      - name: Build nginx and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./nginx
-          file: ./dockerfile
-          push: true
-          tags: ndohjapan/multi-nginx:latest
+      - name: build worker
+        run: docker build -t ndohjapan/multi-worker ./worker
 
-      - name: Build server and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./server
-          file: ./dockerfile
-          push: true
-          tags: ndohjapan/multi-server:latest
+      - name: push client to docker hub
+        run: docker push ndohjapan/multi-client
 
-      - name: Build worker and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./worker
-          file: ./dockerfile
-          push: true
-          tags: ndohjapan/multi-worker:latest
+      - name: push nginx to docker hub
+        run: docker push ndohjapan/multi-nginx
+
+      - name: push server to docker hub
+        run: docker push ndohjapan/multi-server
+
+      - name: push worker to docker hub
+        run: docker push ndohjapan/multi-worker

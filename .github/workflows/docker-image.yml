@@ -32,7 +32,7 @@ jobs:
     # Build out the client react image 
 
     - name: build client image
-      run: docker build -t ndohjapan/react-test -f ../../client/dockerfile.dev ../../client
+      run: docker build -t ndohjapan/react-test -f ./client/dockerfile.dev ./client
     
     # Run the test script for the react and add --coverage to ensure that the test exits
 
@@ -54,16 +54,16 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: build client
-        run: docker build -t ndohjapan/multi-client ../../client
+        run: docker build -t ndohjapan/multi-client ./client
 
       - name: build nginx
-        run: docker build -t ndohjapan/multi-nginx ../../nginx
+        run: docker build -t ndohjapan/multi-nginx ./nginx
 
       - name: build server
-        run: docker build -t ndohjapan/multi-server ../../server
+        run: docker build -t ndohjapan/multi-server ./server
 
       - name: build worker
-        run: docker build -t ndohjapan/multi-worker ../../server
+        run: docker build -t ndohjapan/multi-worker ./worker
 
       - name: push client to docker hub
         run: docker push ndohjapan/multi-client

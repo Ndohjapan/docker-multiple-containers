@@ -17,4 +17,4 @@ EXPOSE 3000
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 
 # We will copy the build folder from the first react build at the top into the build folder the nginx
-COPY --from=buider /app/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html

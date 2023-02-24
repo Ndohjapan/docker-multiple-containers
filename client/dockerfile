@@ -14,7 +14,7 @@ FROM nginx
 EXPOSE 3000
 
 # We will copy the whole ngninx config file into the empty config file of the nginx container
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./default.conf /etc/nginx/conf.d/default.conf
 
 # We will copy the build folder from the first react build at the top into the build folder the nginx
 COPY --from=buider /app/build /usr/share/nginx/html

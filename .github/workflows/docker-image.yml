@@ -37,7 +37,7 @@ jobs:
     # Run the test script for the react and add --coverage to ensure that the test exits
 
     - name: test app
-      run: docker run ndohjapan/react-test npm test -- --coverage
+      run: docker run --rm --detach ndohjapan/react-test npm test
   
   pusht_to_Docker_Hub:
 

@@ -22,7 +22,7 @@ jobs:
     # Steps represents a sequemce of taks that will be executed as part of the job.
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
     # Login to docker
 

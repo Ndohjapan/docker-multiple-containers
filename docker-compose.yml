@@ -1,5 +1,10 @@
 version: '3'
 services:
+  postgres:
+    image: 'postgres:latest' 
+    environment:
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_USER=docker
   api:
     build: 
       dockerfile: dockerfile
@@ -7,6 +12,9 @@ services:
     volumes:
       - /app/node_modules
       - ./server:/app
+    depends_on:
+      - postgres
+      - redis
     environment:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
@@ -32,6 +40,8 @@ services:
     environment:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
+    depends_on:
+      - redis
   nginx:
     restart: always
     build: 

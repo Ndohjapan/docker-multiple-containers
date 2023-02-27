@@ -31,6 +31,8 @@ pgClient.query(`
 
 const redis = require("redis")
 
+console.log(keys)
+
 const redisClient = redis.createClient({
     host: keys.redisHost,
     port: keys.redisPort,

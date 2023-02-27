@@ -10,6 +10,8 @@ app.use(express.json())
 
 const {Pool} = require("pg")
 
+console.log(keys)
+
 const pgClient = new Pool({
     user: keys.pgUser,
     host: keys.pgHost,

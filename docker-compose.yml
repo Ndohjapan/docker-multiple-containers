@@ -38,7 +38,7 @@ services:
       dockerfile: dockerfile
       context: ./nginx
     ports:
-      - '3000:80'
+      - '80:80'
     depends_on:
       - api
       - client

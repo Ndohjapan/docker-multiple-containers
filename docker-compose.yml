@@ -1,13 +1,12 @@
-version: "3"
+version: '3'
 services:
-  client:
-    image: "ndohjapan/multi-client"
-    mem_limit: 128m
-    hostname: client
-  server:
-    image: "ndohjapan/multi-server"
-    mem_limit: 128m
-    hostname: api
+  api:
+    build: 
+      dockerfile: dockerfile
+      context: ./server
+    volumes:
+      - /app/node_modules
+      - ./server:/app
     environment:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
@@ -16,16 +15,32 @@ services:
       - PGDATABASE=$PGDATABASE
       - PGPASSWORD=$PGPASSWORD
       - PGPORT=$PGPORT
+  client:
+    build: 
+      dockerfile: dockerfile
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
   worker:
-    image: "ndohjapan/multi-worker"
-    mem_limit: 128m
-    hostname: worker
+    build:
+      dockerfile: dockerfile
+      context: ./worker
+    volumes:
+      - /app/node_modules
+      - ./worker:/app
     environment:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
   nginx:
-    image: "ndohjapan/multi-nginx"
-    mem_limit: 128m
-    hostname: nginx
+    restart: always
+    build: 
+      dockerfile: dockerfile
+      context: ./nginx
     ports:
-      - "80:80"
+      - '3000:80'
+    depends_on:
+      - api
+      - client
+    environment:
+      - WDS_SOCKET_PORT=0

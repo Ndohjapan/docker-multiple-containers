@@ -13,7 +13,9 @@ const {Pool} = require("pg")
 const pgClient = new Pool({
     user: keys.pgUser,
     host: keys.pgHost,
-    retry_stratergy: () => 1000
+    database: keys.pgDatabase,
+    password: keys.pgPassword,
+    port: keys.pgPort
 })
 
 pgClient.on("error", (err) => {

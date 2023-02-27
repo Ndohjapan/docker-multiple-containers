@@ -32,8 +32,6 @@ const redis = require("redis")
 const redisClient = redis.createClient({
     host: keys.redisHost,
     port: keys.redisPort,
-    username: "default",
-    password: "Tu6Q1fNDJNumCRyBzoeGaTqcTEkGsCVj",
     retry_stratergy: () => 1000
 })
 

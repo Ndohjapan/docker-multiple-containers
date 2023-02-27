@@ -1,57 +1,31 @@
-version: '3'
+version: "3"
 services:
-  postgres:
-    image: 'postgres:latest' 
-    environment:
-      - POSTGRES_PASSWORD=12345678
-      - POSTGRES_USER=docker
-  redis:
-    image: 'redis:latest'
-  api:
-    build: 
-      dockerfile: dockerfile.dev
-      context: ./server
-    volumes:
-      - /app/node_modules
-      - ./server:/app
-    depends_on:
-      - postgres
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - PGUSER=docker
-      - PGHOST=postgres
-      - PGDATABASE=docker
-      - PGPASSWORD=12345678
-      - PGPORT=5432
   client:
-    build: 
-      dockerfile: dockerfile.dev
-      context: ./client
-    volumes:
-      - /app/node_modules
-      - ./client:/app
+    image: "ndohjapan/multi-client"
+    mem_limit: 128m
+    hostname: client
+  server:
+    image: "ndohjapan/multi-server"
+    mem_limit: 128m
+    hostname: api
+    environment:
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+      - PGUSER=$PGUSER
+      - PGHOST=$PGHOST
+      - PGDATABASE=$PGDATABASE
+      - PGPASSWORD=$PGPASSWORD
+      - PGPORT=$PGPORT
   worker:
-    build:
-      dockerfile: dockerfile.dev
-      context: ./worker
-    volumes:
-      - /app/node_modules
-      - ./worker:/app
-    depends_on:
-      - redis
+    image: "ndohjapan/multi-worker"
+    mem_limit: 128m
+    hostname: worker
     environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
   nginx:
-    restart: always
-    build: 
-      dockerfile: dockerfile.dev
-      context: ./nginx
+    image: "ndohjapan/multi-nginx"
+    mem_limit: 128m
+    hostname: nginx
     ports:
-      - '3000:80'
-    depends_on:
-      - api
-      - client
-    environment:
-      - WDS_SOCKET_PORT=0
+      - "80:80"

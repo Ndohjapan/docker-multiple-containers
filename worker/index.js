@@ -1,12 +1,14 @@
 const keys = require("./keys")
 const redis = require("redis")
 
-console.log(keys)
-
 const redisClient = redis.createClient({
     host: keys.redisHost,
     port: keys.redisPort,
     retry_stratergy: () => 1000
+})
+
+redisClient.on('connect',() => {
+    console.log('connected to redis successfully!');
 })
 
 const sub = redisClient.duplicate()

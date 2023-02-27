@@ -13,9 +13,7 @@ const {Pool} = require("pg")
 const pgClient = new Pool({
     user: keys.pgUser,
     host: keys.pgHost,
-    database: keys.pgDatabase,
-    password: keys.pgPassword,
-    port: keys.pgPort
+    retry_stratergy: () => 1000
 })
 
 pgClient.on("error", (err) => {
@@ -31,12 +29,16 @@ pgClient.query(`
 
 const redis = require("redis")
 
-console.log(keys)
-
 const redisClient = redis.createClient({
     host: keys.redisHost,
     port: keys.redisPort,
+    username: "default",
+    password: "Tu6Q1fNDJNumCRyBzoeGaTqcTEkGsCVj",
     retry_stratergy: () => 1000
+})
+
+redisClient.on('connect',() => {
+    console.log('connected to redis successfully!');
 })
 
 const redisPublisher = redisClient.duplicate()

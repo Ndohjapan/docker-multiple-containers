@@ -1,10 +1,5 @@
 version: '3'
 services:
-  postgres:
-    image: 'postgres:latest' 
-    environment:
-      - POSTGRES_PASSWORD=12345678
-      - POSTGRES_USER=docker
   api:
     build: 
       dockerfile: dockerfile
@@ -12,17 +7,14 @@ services:
     volumes:
       - /app/node_modules
       - ./server:/app
-    depends_on:
-      - postgres
-      - redis
     environment:
-      - REDIS_HOST=$REDIS_HOST
-      - REDIS_PORT=$REDIS_PORT
-      - PGUSER=$PGUSER
-      - PGHOST=$PGHOST
-      - PGDATABASE=$PGDATABASE
-      - PGPASSWORD=$PGPASSWORD
-      - PGPORT=$PGPORT
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - PGUSER=${PGUSER}
+      - PGHOST=${PGHOST}
+      - PGDATABASE=${PGDATABASE}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGPORT=${PGPORT}
   client:
     build: 
       dockerfile: dockerfile
@@ -38,10 +30,8 @@ services:
       - /app/node_modules
       - ./worker:/app
     environment:
-      - REDIS_HOST=$REDIS_HOST
-      - REDIS_PORT=$REDIS_PORT
-    depends_on:
-      - redis
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
   nginx:
     restart: always
     build: 

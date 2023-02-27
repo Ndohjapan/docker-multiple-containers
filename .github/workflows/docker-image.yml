@@ -112,8 +112,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: multi-docker
-          environment_name: Multidocker-env
+          application_name: multi-containers
+          environment_name: Multicontainers-env
           version_label: "e-learn-${{ steps.format-time.outputs.replaced }}"
           region: eu-west-2
           deployment_package: deploy.zip

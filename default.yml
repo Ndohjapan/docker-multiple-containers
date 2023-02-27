@@ -90,12 +90,3 @@ jobs:
           vercel-org-id: ${{ secrets.ORG_ID}} 
           vercel-project-id: ${{ secrets.PROJECT_ID}}
           vercel-args: "--prod"
-
-
-- REDIS_HOST=$REDIS_HOST
-      - REDIS_PORT=$REDIS_PORT
-      - PGUSER=$PGUSER
-      - PGHOST=$PGHOST
-      - PGDATABASE=$PGDATABASE
-      - PGPASSWORD=$PGPASSWORD
-      - PGPORT=$PGPORT
